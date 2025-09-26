@@ -11,7 +11,8 @@ class Asistencia(models.Model):
 
 
     def __str__(self):
-        return f"{self.nombre} - {'Presente' if self.presente if 'justificada' else 'Ausente'} - {self.fecha} {self.hora}"
+       presente = 'Presente' if self.presente else 'Ausente'
+       return f"{self.nombre} - {estado} - {self.fecha} {self.hora}"
 
 class alumnos(models.Model):
     nombre = models.CharField(max_length=100)
