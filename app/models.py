@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Asistencia(models.Model):
@@ -11,38 +13,26 @@ class Asistencia(models.Model):
 
 
     def __str__(self):
-       presente = 'Presente' if self.presente else 'Ausente'
-       return f"{self.nombre} - {estado} - {self.fecha} {self.hora}"
+        estado = 'Presente' if self.presente else 'Ausente'
+        return f"{self.nombre} - {estado} - {self.fecha} {self.hora}"
 
-class alumnos(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
+
+class Alumno(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     dni = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True, null=True)
-    asistencias = models.ManyToManyField(Asistencia, blank=True)
+    telefono = models.CharField(max_length=15)
+    asistencias = models.ManyToManyField('Asistencia', blank=True)
 
-    def __str__(self):
-        return f"{self.nombre} {self.apellido} - DNI: {self.dni}"
-
-
-class empleados(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
+class Empleado(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     dni = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True, null=True)
-    puesto = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=15)
+    cargo = models.CharField(max_length=100)  # Profesor, Preceptor, etc.
 
-    def __str__(self):
-        return f"{self.nombre} {self.apellido} - DNI: {self.dni} - Puesto: {self.puesto}"
-
-class administradores(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
+class Administrador(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     dni = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True, null=True)
+    telefono = models.CharField(max_length=15)
 
-    def __str__(self):
-        return f"{self.nombre} {self.apellido} - DNI: {self.dni} - Area: {self.area}"
+
+    
